@@ -1,0 +1,9 @@
+[kubernetes:children]
+kubernetes-master
+kubernetes-nodes
+
+[kubernetes-master]
+ansible-kube-master
+
+[kubernetes-nodes]
+ansible-kube-node1

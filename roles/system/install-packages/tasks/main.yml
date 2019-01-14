@@ -1,0 +1,11 @@
+---
+
+- name: Install additional tools
+  yum:
+    name: "{{ add_tools }}"
+  vars:
+    add_tools:
+    - vim
+    - git
+    - tcpdump
+

@@ -1,0 +1,5 @@
+[kube]
+ansible-kube-master	ansible_host=192.168.56.21
+ansible-kube-node1	ansible_host=192.168.56.22
+
+

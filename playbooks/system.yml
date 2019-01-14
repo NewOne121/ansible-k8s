@@ -1,0 +1,7 @@
+---
+
+- name: Basic system preconfiguration
+  hosts: all
+  roles:
+    - role: system/install-packages
+
