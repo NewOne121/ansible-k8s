@@ -5,7 +5,7 @@ metadata:
   name: rouser
   namespace: default
 ---
-apiVersion: v1
+apiVersion: v1 #It may vary
 kind: ClusterRole
 metadata:
   annotations:
@@ -36,7 +36,7 @@ rules:
   - watch
 ---
 kind: ClusterRoleBinding
-apiVersion: v1
+apiVersion: v1 #This may vary
 metadata:
   name: rouser-read-only
 subjects:
@@ -46,4 +46,4 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: rouser-read-only
-  apiGroup: v1
+  apiGroup: v1 #And this too
