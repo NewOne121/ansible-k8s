@@ -1,0 +1,9 @@
+
+- name: Get my environment config tool from github
+  git:
+    repo: 'https://github.com/newone121/rc.files.git'
+    dest: '/opt/rc.files'
+    update: no
+
+- name: Apply environment configuration for ansible user
+  command: '/opt/rc.files/init.sh'
