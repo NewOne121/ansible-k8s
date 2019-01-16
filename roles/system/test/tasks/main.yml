@@ -1,0 +1,11 @@
+---
+
+- name: "Aggregate hostnames"
+  set_fact:
+    mylist: "{% for host in ips %}\"{{ host }}\"{% if not loop.last %}, {% endif %}{% endfor %}"
+
+- name: "Install varfile"
+  template:
+    src: "test_file.j2"
+    dest: "/tmp/test_file"
+

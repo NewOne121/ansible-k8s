@@ -3,6 +3,7 @@
 - name: Basic system preconfiguration
   hosts: all
   roles:
-    - role: system/install-packages
-    - role: system/configure-environment
+#    - role: system/install-packages
+#    - role: system/configure-environment
+    - role: system/test
 
