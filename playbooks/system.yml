@@ -4,6 +4,6 @@
   hosts: all
   roles:
 #    - role: system/install-packages
-#    - role: system/configure-environment
-    - role: system/test
+    - role: system/check-environment
+#    - role: system/test
 
