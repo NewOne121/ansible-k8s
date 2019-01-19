@@ -1,0 +1,38 @@
+---
+
+- name: "List yum packages"
+  yum:
+    list: docker
+  register: docker_version
+
+- name: Extract packages installed version
+  set_fact:
+     docker_installed_version:  "{{docker_version|json_query(jsonquery)}}"
+  vars:
+     jsonquery: "results[?yumstate=='installed'].version"
+
+- name: "Print Docker package version"
+  debug:
+    msg: "Docker version is {{ docker_installed_version }}"
+
+
+- name: "Check services status"
+  command: systemctl status {{ item }}
+  register: check_results
+  with_items:
+#  - docker
+  - firewalld
+#  - systemd-journald
+  ignore_errors: yes
+
+
+- name: "Extract service status"
+  set_fact:
+    service_status: "{{ check_results | json_query('results[*].stdout') |  regex_replace('^.*Active:\\ (active|inactive)\\ .*\\\\n.*$', '\\1')|capitalize}}"
+
+- name: "Print status"
+  debug:
+    var: service status
+
+#TODO
+#Check all services
