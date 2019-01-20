@@ -1,0 +1,17 @@
+---
+
+docker_package_name: "Not installed"
+docker_package_version: "Not installed"
+docker_service_status: "Not installed"
+
+firewalld_package_name: "Not installed"
+firewalld_package_version: "Not installed"
+firewalld_service_status: "Not installed"
+
+docker_registry_port_status: "Allocated"
+docker_registry_container_status: "Not Running"
+docker_registry_package_name: "Not installed"
+docker_registry_package_version: "Not installed"
+docker_registry_service_status: "Not installed"
+
+#selinux_service_status: "Disabled"
