@@ -1,5 +1,5 @@
 
-- name: Get my environment config tool from github
+- name: Get environment config tool from github
   git:
     repo: 'https://github.com/newone121/rc.files.git'
     dest: '/opt/rc.files'
