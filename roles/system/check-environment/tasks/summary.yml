@@ -1,0 +1,14 @@
+- debug:
+    msg:
+      - "Docker package name is: {{ docker_package_name }}"
+      - "Docker package version is: {{ docker_package_version }}"
+      - "Docker service is: {{ docker_service_status }}"
+      - "Firewalld package name is: {{ firewalld_package_name }}"
+      - "Firewalld package version is: {{ firewalld_package_version }}"
+      - "Firewalld service is: {{ firewalld_service_status }}"
+      - "Docker-registry package name is: {{ docker_registry_package_name }}"
+      - "Docker-registry package version is: {{ docker_registry_package_version }}"
+      - "Docker-registry service is: {{ docker_registry_service_status }}"
+      - "Docker-registry container: {{ docker_registry_container_status }}"
+      - "Docker-registry port (5000) status: {{ docker_registry_port_status }}"
+      - "Selinux status: {{ selinux_service_status.stdout }}"

@@ -1,0 +1,50 @@
+---
+
+- name: "Get docker-registry package info"
+  set_fact:
+    docker_registry_package_info: "{{ yum_packages | json_query(jsonquery) }}"
+  vars:
+    jsonquery: "results[?name=='docker-registry' || name=='docker-distribution']"
+
+- name: "Get docker-registry package details"
+  set_fact:
+    docker_registry_package_name: "{{ docker_registry_package_info[0].name }}"
+    docker_registry_package_version: "{{ docker_registry_package_info[0].version }}"
+  when: docker_registry_package_info != "" and docker_registry_package_info != []
+
+- name: "Check services status"
+  command: systemctl status {{ docker_registry_package_name }}
+  register: check_docker_registry_output
+  ignore_errors: yes
+  when: docker_registry_package_info != "" and docker_registry_package_info != []
+
+- name: "Extract service status"
+  set_fact:
+    docker_registry_service_status: "{{ check_docker_registry_output | json_query('stdout_lines[2]') | regex_replace('^.*Active:\\ (active|inactive)\\ .*', '\\1') | capitalize}}"
+  when: docker_registry_package_info != "" and docker_registry_package_info != []
+
+- name: "Check if registry port already allocated"
+  wait_for:
+    host: localhost
+    port: 5000
+    state: started
+    delay: 0 
+    timeout: 3
+  register: port_check
+  ignore_errors: yes
+
+- name: "Set port status"
+  set_fact:
+    docker_registry_port_status: "Free"
+  when: port_check.failed
+
+- name: "Check if registry container running"
+  shell: "docker ps | awk '/registry/ {print $2}'"
+  register: docker_registry_container_check
+- debug:
+    var: docker_registry_container_check.stdout
+
+- name: "Set registry container status"
+  set_fact:
+    docker_registry_container_status: Running
+  when: docker_registry_container_check.stdout != ""

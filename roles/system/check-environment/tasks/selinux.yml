@@ -1,0 +1,5 @@
+---
+
+- name: "Check if selinux enabled"
+  command: getenforce
+  register: selinux_service_status

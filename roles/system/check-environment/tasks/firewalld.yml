@@ -1,0 +1,25 @@
+---
+
+- name: "Get firewalld package info"
+  set_fact:
+    firewalld_package_info: "{{ yum_packages | json_query(jsonquery) }}"
+  vars:
+    jsonquery: "results[?name=='firewalld' || name=='firewall']"
+
+- name: "Get firewalld package details"
+  set_fact:
+    firewalld_package_name: "{{ firewalld_package_info[0].name }}"
+    firewalld_package_version: "{{ firewalld_package_info[0].version }}"
+  when: firewalld_package_info != "" and firewalld_package_info != []
+
+- name: "Check services status"
+  command: systemctl status firewalld
+  register: check_firewalld_output
+  ignore_errors: yes
+  when: firewalld_package_info != "" and firewalld_package_info != []
+
+- name: "Extract service status"
+  set_fact:
+    firewalld_service_status: "{{ check_firewalld_output | json_query('stdout_lines[2]') | regex_replace('^.*Active:\\ (active|inactive)\\ .*', '\\1') | capitalize}}"
+  when: firewalld_package_info != "" and firewalld_package_info != []
+

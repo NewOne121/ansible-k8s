@@ -1,0 +1,6 @@
+---
+
+- name: "List installed packages"
+  yum:
+    list: installed
+  register: yum_packages

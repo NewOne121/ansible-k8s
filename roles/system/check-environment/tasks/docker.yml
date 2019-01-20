@@ -1,0 +1,25 @@
+---
+
+- name: "Get docker package info"
+  set_fact:
+    docker_package_info: "{{ yum_packages | json_query(jsonquery) }}"
+  vars:
+    jsonquery: "results[?name=='docker' || name=='docker-ce']"
+
+- name: "Get docker package details"
+  set_fact:
+    docker_package_name: "{{ docker_package_info[0].name }}"
+    docker_package_version: "{{ docker_package_info[0].version }}"
+  when: docker_package_info != "" and docker_package_info != []
+
+- name: "Check services status"
+  command: systemctl status docker
+  register: check_docker_output
+  ignore_errors: yes
+  when: docker_package_info != "" and docker_package_info != []
+
+- name: "Extract service status"
+  set_fact:
+    docker_service_status: "{{ check_docker_output | json_query('stdout_lines[2]') | regex_replace('^.*Active:\\ (active|inactive)\\ .*', '\\1') | capitalize}}"
+  when: docker_package_info != "" and docker_package_info != []
+
